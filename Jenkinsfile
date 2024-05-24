@@ -1,7 +1,7 @@
 pipeline { 
     agent any
     parameters {
-        string(name: 'ServiceName', defaultValue: 'loadgenerator')
+        string(name: 'ServiceName', defaultValue: 'catservice')
     }
     stages {
         stage('Git checkout') {
