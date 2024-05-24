@@ -1,23 +1,17 @@
-pipeline {
+pipeline { 
     agent any
-
+    parameters {
+        string(name: 'ServiceName', defaultValue: 'loadgenerator')
+    }
     stages {
-        stage('Build & Tag Docker Image') {
+        stage('Git checkout') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t adijaiswal/paymentservice:latest ."
-                    }
-                }
-            }
-        }
-        
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push adijaiswal/paymentservice:latest "
-                    }
+                    // Checkout the current branch
+                    checkout scm
+
+                    // Call the custom function to build Docker image
+                    dockerimagebuild(ServiceName)
                 }
             }
         }
